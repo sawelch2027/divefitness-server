@@ -1,98 +1,193 @@
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: linear-gradient(180deg, #edf3f8 0%, #dbe8f3 100%);
-  color: #102033;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(77, 168, 255, 0.12), transparent 30%),
+    linear-gradient(180deg, #081120 0%, #0b1220 100%);
+  color: #d8e0f0;
+  min-height: 100vh;
 }
 
 .api-page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
+  width: min(88vw, 1200px);
+  margin: 0 auto;
+  padding: 48px 0 70px;
 }
 
-.api-card {
-  width: min(92%, 900px);
-  background: #ffffff;
+.hero-card,
+.preview-section {
+  background: rgba(18, 28, 51, 0.95);
+  border: 1px solid rgba(110, 148, 255, 0.18);
   border-radius: 28px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+}
+
+.hero-card {
   padding: 42px;
-  box-shadow: 0 18px 45px rgba(18, 37, 63, 0.12);
+  margin-bottom: 36px;
+}
+
+.preview-section {
+  padding: 38px;
 }
 
 .eyebrow {
-  margin: 0 0 10px 0;
-  font-size: 0.95rem;
+  display: inline-block;
+  margin-bottom: 12px;
+  color: #7fc4ff;
+  font-size: 0.82rem;
   font-weight: 700;
-  color: #3f628a;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
 }
 
-.api-card h1 {
-  margin: 0 0 14px 0;
-  font-size: 2.6rem;
+h1 {
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
   line-height: 1.05;
+  margin-bottom: 16px;
+  color: #ffffff;
 }
 
-.intro {
-  margin: 0 0 28px 0;
-  font-size: 1.08rem;
+h2 {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.intro,
+.section-heading p {
+  max-width: 760px;
+  color: #b8c5df;
   line-height: 1.7;
-  color: #41556f;
-  max-width: 700px;
+  font-size: 1rem;
 }
 
 .endpoint-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 18px;
+  margin-top: 30px;
 }
 
 .endpoint-link {
   display: block;
   text-decoration: none;
-  background: #163a5a;
-  color: #ffffff;
+  background: linear-gradient(180deg, rgba(13, 23, 43, 0.95), rgba(10, 18, 33, 0.95));
+  border: 1px solid rgba(127, 196, 255, 0.18);
+  border-radius: 22px;
   padding: 22px;
-  border-radius: 18px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .endpoint-link:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 24px rgba(22, 58, 90, 0.2);
+  transform: translateY(-4px);
+  border-color: rgba(127, 196, 255, 0.45);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
 }
 
 .endpoint-title {
   display: block;
-  font-size: 1.15rem;
-  font-weight: 800;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.08rem;
   margin-bottom: 8px;
 }
 
 .endpoint-url {
+  color: #7fc4ff;
+  font-size: 0.95rem;
+  word-break: break-word;
+}
+
+.section-heading {
+  margin-bottom: 28px;
+}
+
+.workout-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+  gap: 24px;
+}
+
+.workout-card {
+  background: linear-gradient(180deg, #0d172b 0%, #0a1221 100%);
+  border: 1px solid rgba(127, 196, 255, 0.14);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
+}
+
+.workout-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
   display: block;
-  font-size: 0.98rem;
-  opacity: 0.9;
+}
+
+.workout-content {
+  padding: 20px;
+}
+
+.workout-content h3 {
+  color: #ffffff;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.short-description {
+  color: #b8c5df;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.pill-row,
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pill-row {
+  margin-bottom: 14px;
+}
+
+.pill {
+  display: inline-block;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(77, 168, 255, 0.14);
+  color: #92d2ff;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.meta-row {
+  justify-content: space-between;
+  color: #d8e0f0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.error-message {
+  color: #ffb3b3;
+  background: rgba(255, 87, 87, 0.08);
+  border: 1px solid rgba(255, 87, 87, 0.25);
+  padding: 16px;
+  border-radius: 14px;
 }
 
 @media (max-width: 700px) {
-  .api-card {
-    padding: 28px 20px;
-    border-radius: 20px;
+  .hero-card,
+  .preview-section {
+    padding: 24px;
   }
 
-  .api-card h1 {
-    font-size: 2rem;
-  }
-
-  .endpoint-grid {
-    grid-template-columns: 1fr;
+  .workout-image {
+    height: 200px;
   }
 }

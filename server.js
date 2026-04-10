@@ -1,14 +1,16 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const Joi = require("joi");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
+app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-const workouts = [
+let workouts = [
   {
     id: 1,
     title: "Morning Mobility",
@@ -83,6 +85,17 @@ const workouts = [
   }
 ];
 
+const workoutSchema = Joi.object({
+  title: Joi.string().min(3).max(100).required(),
+  category: Joi.string().min(3).max(50).required(),
+  duration: Joi.string().min(3).max(30).required(),
+  level: Joi.string().valid("Beginner", "Intermediate", "Advanced").required(),
+  calories: Joi.string().pattern(/^\d+\s?kcal$/).required(),
+  image: Joi.string().min(5).required(),
+  shortDescription: Joi.string().min(10).max(180).required(),
+  description: Joi.string().min(20).max(600).required()
+});
+
 app.get("/api/workouts", (req, res) => {
   res.json(workouts);
 });
@@ -96,6 +109,37 @@ app.get("/api/workouts/:id", (req, res) => {
   }
 
   res.json(workout);
+});
+
+app.post("/api/workouts", (req, res) => {
+  const { error } = workoutSchema.validate(req.body, { abortEarly: false });
+
+  if (error) {
+    return res.status(400).json({
+      success: false,
+      errors: error.details.map((detail) => detail.message)
+    });
+  }
+
+  const newWorkout = {
+    id: workouts.length ? workouts[workouts.length - 1].id + 1 : 1,
+    title: req.body.title.trim(),
+    category: req.body.category.trim(),
+    duration: req.body.duration.trim(),
+    level: req.body.level.trim(),
+    calories: req.body.calories.trim(),
+    image: req.body.image.trim(),
+    shortDescription: req.body.shortDescription.trim(),
+    description: req.body.description.trim()
+  };
+
+  workouts.push(newWorkout);
+
+  res.status(201).json({
+    success: true,
+    message: "Workout added successfully",
+    workout: newWorkout
+  });
 });
 
 app.get("/", (req, res) => {

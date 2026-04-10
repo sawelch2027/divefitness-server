@@ -8,26 +8,84 @@
 </head>
 <body>
   <main class="api-page">
-    <section class="api-card">
+    <section class="hero-card">
       <p class="eyebrow">DiveFitness Backend</p>
-      <h1>DiveFitness API</h1>
+      <h1>DiveFitness Workout API</h1>
       <p class="intro">
-        Welcome to the DiveFitness workout server. Use the links below to view
-        the available API routes and workout data.
+        This server powers the DiveFitness workout experience. Browse workout data,
+        test individual routes, and preview featured workouts directly from the backend.
       </p>
 
       <div class="endpoint-grid">
         <a class="endpoint-link" href="/api/workouts">
           <span class="endpoint-title">All Workouts</span>
-          <span class="endpoint-url">/api/workouts</span>
+          <span class="endpoint-url">GET /api/workouts</span>
         </a>
 
         <a class="endpoint-link" href="/api/workouts/1">
           <span class="endpoint-title">Workout by ID</span>
-          <span class="endpoint-url">/api/workouts/1</span>
+          <span class="endpoint-url">GET /api/workouts/1</span>
         </a>
       </div>
     </section>
+
+    <section class="preview-section">
+      <div class="section-heading">
+        <p class="eyebrow">Live Data Preview</p>
+        <h2>Featured Workouts From the API</h2>
+        <p>
+          These cards and images are loaded from the backend route, which shows that
+          the API is connected to real workout data.
+        </p>
+      </div>
+
+      <div id="workout-list" class="workout-grid"></div>
+    </section>
   </main>
+
+  <script>
+    async function loadWorkouts() {
+      try {
+        const response = await fetch("/api/workouts");
+        const workouts = await response.json();
+        const workoutList = document.getElementById("workout-list");
+
+        workoutList.innerHTML = "";
+
+        workouts.slice(0, 6).forEach((workout) => {
+          const card = document.createElement("article");
+          card.className = "workout-card";
+
+          card.innerHTML = `
+            <img
+              class="workout-image"
+              src="${workout.image}"
+              alt="${workout.title}"
+            />
+            <div class="workout-content">
+              <div class="pill-row">
+                <span class="pill">${workout.category}</span>
+                <span class="pill">${workout.level}</span>
+              </div>
+              <h3>${workout.title}</h3>
+              <p class="short-description">${workout.shortDescription}</p>
+              <div class="meta-row">
+                <span>${workout.duration}</span>
+                <span>${workout.calories}</span>
+              </div>
+            </div>
+          `;
+
+          workoutList.appendChild(card);
+        });
+      } catch (error) {
+        document.getElementById("workout-list").innerHTML = `
+          <p class="error-message">Unable to load workouts from the API right now.</p>
+        `;
+      }
+    }
+
+    loadWorkouts();
+  </script>
 </body>
 </html>
