@@ -142,6 +142,56 @@ app.post("/api/workouts", (req, res) => {
   });
 });
 
+app.put("/api/workouts/:id", (req, res) => {
+  const workoutId = parseInt(req.params.id);
+  const workout = workouts.find((item) => item.id === workoutId);
+
+  if (!workout) {
+    return res.status(404).json({ error: "Workout not found" });
+  }
+
+  const { error } = workoutSchema.validate(req.body, { abortEarly: false });
+
+  if (error) {
+    return res.status(400).json({
+      success: false,
+      errors: error.details.map((detail) => detail.message)
+    });
+  }
+
+  workout.title = req.body.title.trim();
+  workout.category = req.body.category.trim();
+  workout.duration = req.body.duration.trim();
+  workout.level = req.body.level.trim();
+  workout.calories = req.body.calories.trim();
+  workout.image = req.body.image.trim();
+  workout.shortDescription = req.body.shortDescription.trim();
+  workout.description = req.body.description.trim();
+
+  res.status(200).json({
+    success: true,
+    message: "Workout updated successfully",
+    workout: workout
+  });
+});
+
+app.delete("/api/workouts/:id", (req, res) => {
+  const workoutId = parseInt(req.params.id);
+  const workoutIndex = workouts.findIndex((item) => item.id === workoutId);
+
+  if (workoutIndex === -1) {
+    return res.status(404).json({ error: "Workout not found" });
+  }
+
+  const deletedWorkout = workouts.splice(workoutIndex, 1);
+
+  res.status(200).json({
+    success: true,
+    message: "Workout deleted successfully",
+    workout: deletedWorkout[0]
+  });
+});
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
