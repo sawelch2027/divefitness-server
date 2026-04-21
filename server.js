@@ -48,7 +48,8 @@ app.get("/api/workouts", async (req, res) => {
     const workouts = await Workout.find().sort({ createdAt: -1 });
     res.json(workouts);
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch workouts" });
+    console.error("GET /api/workouts error:", err);
+    res.status(500).json({ error: err.message });
   }
 });
 
